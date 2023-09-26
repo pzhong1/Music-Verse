@@ -6,7 +6,9 @@ const PORT = process.env.PORT || 3003;
 app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  const indexPath = path.join(__dirname, "../client/build/index.html");
+  console.log("Index HTML Path:", indexPath);
+  res.sendFile(indexPath);
 });
 
 app.listen(PORT, () => {
