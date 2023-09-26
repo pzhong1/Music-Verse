@@ -12,9 +12,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.get("*", (req, res) => {
-  const indexPath = path.join(__dirname, "../client/build/index.html");
-  console.log("Index HTML Path:", indexPath);
-  res.sendFile(indexPath);
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 app.listen(PORT, () => {
