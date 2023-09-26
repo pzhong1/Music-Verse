@@ -8,9 +8,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 if (process.env.NODE_ENV) {
-  app.use(express.static("app/client/build"));
+  app.use(express.static("MUSIC-VERSE/client/build"));
   app.get("*", function (req, res) {
-    res.sendFile(path.resolve(__dirname, "app/client/build", "index.html"));
+    res.sendFile(
+      path.resolve(__dirname, "MUSIC-VERSE/client/build", "index.html")
+    );
   });
 }
 
