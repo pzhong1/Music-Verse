@@ -1,11 +1,16 @@
 import React from "react";
 import HomePage from "./components/HomePage";
+import { BrowserRouter as Router } from "react-router-dom";
+import SearchMusic from "./components/SearchBar";
 
 function App() {
   return (
-    <div className="App">
-      <HomePage />
-    </div>
+    <Router>
+      <div className="App">
+        <HomePage />
+        <SearchMusic />
+      </div>
+    </Router>
   );
 }
 

@@ -3,21 +3,21 @@
   "version": "1.0.0",
   "description": " ",
   "main": "index.js",
-
   "scripts": {
-    "start": "node server/server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
-  },
+    "start": "node server/server.js && cd server && node server.js & cd client && npm start",
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
   
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-
   "engines": {
     "node": "18.x",
     "npm": "7.x"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
   }
- 
-  
-  
 }
