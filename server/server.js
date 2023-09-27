@@ -3,6 +3,7 @@ const express = require("express");
 const spotifyService = require("./utils/spotifyService");
 const path = require("path");
 const { ApolloServer } = require('apollo-server-express');
+const cors = require('cors'); // Import the cors middleware
 const app = express();
 const { authMiddleware } = require('./utils/auth');
 const db = require('./config/connection');
@@ -10,6 +11,8 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // To handle JSON requests
 
+// Enable CORS for all routes
+app.use(cors());
 
 app.get("/search", async (req, res) => {
   try {
