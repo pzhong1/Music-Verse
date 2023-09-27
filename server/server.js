@@ -1,11 +1,12 @@
 const express = require("express");
+require("dotenv").config(); // import dotenv package for get info from .env file
 const spotifyService = require("./utils/spotifyService");
 const cors = require("cors");
 const path = require("path");
-
+const { ApolloServer } = require('apollo-server-express');
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors());
 
 app.use(express.json()); // To handle JSON requests
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
@@ -20,6 +21,14 @@ app.get("/search", async (req, res) => {
   }
 });
 
+const { typeDefs, resolvers } = require('./schemas');
+const db = require('./config/connection');
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  // context: authMiddleware,
+});
+
 app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.get("*", (req, res) => {
@@ -28,6 +37,18 @@ app.get("*", (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
-});
+// Create a new instance of an Apollo server with the GraphQL schema
+const startApolloServer = async () => {
+  await server.start();
+  server.applyMiddleware({ app });
+  
+  db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    })
+  })
+};
+  
+// Call the async function to start the server
+startApolloServer();
