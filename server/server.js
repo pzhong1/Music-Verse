@@ -5,7 +5,7 @@ const path = require("path");
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors());
 
 app.use(express.json()); // To handle JSON requests
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
