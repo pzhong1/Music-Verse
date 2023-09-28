@@ -25,7 +25,8 @@ const getToken = async () => {
       }
     );
     token = response.data.access_token;
-  } catch (error) {
+  } catch ({error}) {
+    console.log(error);
     console.error("Error getting Spotify token", error);
   }
 };
@@ -49,6 +50,7 @@ const searchMusic = async (query) => {
     });
     return response.data; //return search result
   } catch (error) {
+    console.log(error);
     console.error("Error searching music", error);
     throw error;
   }
