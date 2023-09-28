@@ -14,6 +14,9 @@ const resolvers = {
         getUser: async (parent, { userId }) => {
             return User.findOne({ _id: userId});
         },
+        getPost: async (parent, { postId}) => {
+            return Post.findOne({ _id: postId});
+        }
     },
     
 
@@ -77,11 +80,21 @@ const resolvers = {
         },
 
         removeUser: async ( parent, { userId }, context ) => {
-            
+            if (context.user) {
+                return User.findOneAndDelete({ _id: context.user._id});
+            }
+            throw new AuthenticationError('You need to login');
         },
 
         removePost: async ( parent, { post }, context) => {
-
+            if (context.user) {
+                return User.findOneAndUpdate(
+                    { _id: context.user._id},
+                    { $pull: { posts: post } },
+                    { new:true }
+                );
+            }
+            throw new AuthenticationError('Need to be login')
         },
 
         addComment: async ( parent, { postId, userId, comment }, context ) => {
