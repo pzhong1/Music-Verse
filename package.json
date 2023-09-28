@@ -24,7 +24,7 @@
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.1",
     "react-scripts": "^5.0.1"
-  },
+  }
 
-  "proxy": "http://localhost:3001/"
+
 }
