@@ -1,0 +1,27 @@
+/* client/src/styles/Rating.css */
+
+.rating-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .fa-star {
+    color: #ccc;
+    font-size: 24px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .fa-star.hover,
+  .fa-star.fas {
+    color: #FFD700; /* Gold/Yellow color for hover and selected stars */
+  }
+  
+  @media (max-width: 768px) {
+    .fa-star {
+      font-size: 18px;
+    }
+  }
+  

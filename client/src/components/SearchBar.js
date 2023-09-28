@@ -1,84 +1,79 @@
-import React, { useState } from "react"; // import react and useState hook
-import API from "../utils/api"; // import api, so this file can communicated with server api
+import React, { useState, useEffect, useContext } from "react";
+import API from "../utils/api";
+import '../styles/SearchBar.css';
+import Rating from './Rating.js'; // Import Rating component
+import DarkModeContext from '../DarkModeContext';
+import Comments from './Comments'; // Import Comments component
+import Navbar from './Navbar'; // Import Navbar component
 
 function SearchBar() {
-  const [query, setQuery] = useState(""); //set this hook for user to search for music or artist
-  const [results, setResults] = useState([]); // set this hook to update search result
-  const [loading, setLoading] = useState(false); // set this = false, only display loading string when user enter something in search bar
-  const [error, setError] = useState(null); // if something wrong then display soemthing wrong
+  const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // request spotifty api from server
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
+
   const searchMusic = async () => {
-    setLoading(true); // display 'loading' when user searching something
-    setError(null); // auto delete error msg if search result is succsful
+    setLoading(true);
+    setError(null);
     try {
-      const response = await API.searchMusic(query); // use API for searching
+      const response = await API.searchMusic(query);
       setResults(response.data.tracks.items);
     } catch (error) {
-      // if something wrong then display error msg
       console.error("Error fetching music:", error);
       setError("Failed to fetch music. Please try again.");
     } finally {
-      setLoading(false); // hide loading when search is done
+      setLoading(false);
     }
   };
 
-  // display on website
+  const handleRatingChange = (rating) => {
+    console.log('Selected Rating:', rating);
+    // Here you can handle the selected rating
+  };
+
   return (
-    <div>
-      <h1>Search for Music</h1>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter music or artist" // search bar
-      />
+    <>
+      <Navbar /> {/* Render Navbar component */}
+      <div className="search-bar">
+        <h1>Search for Music</h1>
+        
+        <label className="switch">
+          <input type="checkbox" checked={isDarkMode} onChange={toggleDarkMode} />
+          <span className="slider"></span>
+        </label>
 
-      {/* onclick method for when user click search */}
-      <button onClick={searchMusic} disabled={loading}>
-        Search
-      </button>
+        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter music or artist" />
+        <button onClick={searchMusic} disabled={loading}>Search</button>
+        {loading && <p>Loading...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* display loading when user seaching for something */}
-      {loading && <p>Loading...</p>}
-
-      {/* display error if something wrong */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* after searching is sccussful display result */}
-      <div>
-        {results.map((item) => (
-          <div className="music-card" key={item.id}>
-            {/* images */}
-            <img
-              src={item.album.images[0]?.url}
-              alt="Album Cover"
-              style={{ width: "100px", height: "100px" }}
-            />
-
-            {/* music name and artists */}
-            <div className="music-details">
-              <h3>
-                {item.name} by {item.artists[0].name}
-              </h3>
-
-              {/* the relase date  the music  */}
-              <p>Release Date: {item.album.release_date}</p>
-
-              {/* if the api has url for demo then user can listen to the song for 30sec */}
-              {item.preview_url && (
-                <audio controls>
-                  <source src={item.preview_url} type="audio/mpeg" />
-                  Opps! this does not support the audio element.
-                </audio>
-              )}
-            </div>
-          </div>
-        ))}
+        <div>
+  {results.slice(0, 5).map((item) => (
+    <div className="music-card" key={item.id}>
+      <img className="album-cover" src={item.album.images[0]?.url} alt="Album Cover" />
+      <div className="music-details">
+        <h3>{item.name} by {item.artists[0].name}</h3>
+        <p>Release Date: {item.album.release_date}</p>
+        {item.preview_url && (
+          <audio controls>
+            <source src={item.preview_url} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        )}
+        <Rating onRatingChange={handleRatingChange} />
+        <Comments />
       </div>
     </div>
+  ))}
+</div>
+      </div>
+    </>
   );
 }
 
-//export it so other file can use it
 export default SearchBar;
