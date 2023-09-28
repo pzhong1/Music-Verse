@@ -1,0 +1,99 @@
+/* client/src/styles/Navbar.css */
+
+/* Styling for Navbar Component */
+nav {
+    background-color: #333333;
+    overflow: hidden;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    float: left;
+  }
+  
+  nav ul li a {
+    color: white;
+    display: block;
+    padding: 14px 20px;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  nav ul li a:hover {
+    background-color: #111111;
+  }
+  
+  .navbar-container {
+    position: relative; /* Set to relative, so absolute positioning of children is relative to this container */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+
+  .hamburger-icon {
+    margin: 0; /* Ensure no margin */
+    margin-right: 10px; /* Move the hamburger icon slightly to the left */
+    cursor: pointer;
+    font-size: 24px; /* Set the size of the icon */
+    box-shadow: 2px 2px 5px #000000; /* Add shadow */
+    border: 2px solid #000000; /* Add border */
+    padding: 5px; /* Add padding */
+    border-radius: 5px; /* Optional: if you want rounded corners */
+    display: none; /* Hide the hamburger icon by default */
+  }
+
+.nav-links {
+    /* Add your existing styles for nav-links here, and additionally add the following property */
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0; /* Initially hidden */
+  }
+  
+  .nav-links.open {
+    max-height: 200px; /* Adjust according to your needs */
+  }
+  
+  .nav-links li {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .nav-links.open li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  
+  @media (max-width: 768px) {
+    .hamburger-icon {
+        display: block; /* Show the hamburger icon on smaller screens */
+        cursor: pointer;
+        font-size: 24px; /* Set the size of the icon */
+        box-shadow: 2px 2px 5px #000000; /* Add shadow */
+        border: 2px solid #000000; /* Add border */
+        padding: 5px; /* Add padding */
+        border-radius: 5px; /* Optional: if you want rounded corners */
+      }
+    
+      .nav-links {
+        display: none; /* Hide the links by default on smaller screens */
+      }
+    
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+      }
+    }
