@@ -1,64 +1,56 @@
 const { model, Schema } = require('mongoose');
 
-const commentSchema = new Schema(
-    {
-        commentId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
-        },
-        
-        commentBody: {
-            type:String,
-            required:true,
-            max_Length: 280,
-        },
-        
-            username: {
-                type:String, 
-                required: true,
-            },
-           createAt: {
-            type:Date,
-            default:Date.now,
-           } 
-        
-    }
-)
-
-const postSchema = new Schema(
-    {
-       postText: {
+const CommentSchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    content: {
         type: String,
         required: true,
         minLength: 1,
-        max_Length: 560
-       }, 
-       
-       username:{
-        type:String, 
-        required:true
-       },
-       
-       createdAt: {
+        maxLength: 560,
+    },
+    createdAt: {
         type: Date,
-        default:Date.now,
-       },
+        default: Date.now,
+    },
+});
 
-        comments:[commentSchema]
-     
-        
+const PostSchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    postText: {
+        type: String,
+        required: true,
+        minLength: 1,
+        maxLength: 560,
+    },
+    username: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    comments: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Comment',
+        },
+    ],
 },
-    {
-        toJSON: {
-            getters:true,
+{
+    toJSON: {
+        getters: true,
+    },
+    id: false,
+});
 
-        }, 
-        id: false,
-    }
-);
+const Comment = model('Comment', CommentSchema);
+const Post = model('Post', PostSchema);
 
-
-const Post = model('Post', postSchema);
-// const Post = model('Post', { postSchema, commentSchema });
-
-module.exports = Post; 
+module.exports = { Post, Comment };

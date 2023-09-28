@@ -1,0 +1,100 @@
+/* client/src/styles/SearchBar.css */
+
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 500px; /* Adjust the maximum width as per your requirement */
+    margin: auto;
+}
+
+/* Styling the search input box */
+.search-bar input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 60%; /* Default width for larger screens */
+    border-radius: 8px;
+}
+
+/* Styling the search button */
+.search-bar button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    width: 60%; /* Default width for larger screens */
+    margin-bottom: 20px; /* Add or adjust margin as needed */
+}
+
+.search-bar button:hover {
+    background-color: #45a049;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-bottom: 20px;
+}
+
+.music-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    width: 100%;
+    max-width: 300px; /* Set a maximum width for the cards */
+}
+
+.album-cover {
+    width: 100%;
+    max-width: 120px; /* Reduce the maximum width */
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.music-details {
+    width: 100%;
+    text-align: center;
+    font-size: 14px; /* Adjust the font size if necessary */
+}
+
+
+.music-details {
+    width: 100%;
+    text-align: center;
+}
+
+/* Responsiveness for mobile views */
+@media only screen and (max-width: 600px) {
+    .search-bar input[type="text"],
+    .search-bar button {
+        width: 80%; /* Increased width for smaller screens */
+    }
+
+    .music-card {
+        padding: 8px;
+    }
+
+    .album-cover {
+        max-width: 80px; /* Further reduce the maximum width for smaller screens */
+    }
+}
+
+/* Additional styling adjustments as needed */
