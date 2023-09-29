@@ -39,7 +39,7 @@ app.get("/search", async (req, res) => {
     res.json(results);
   } catch (error) {
     console.error("Error in /search route:", error);
-    res.status(500).send("Server error");
+    res.status(500).json({ error: error.message });
   }
 });
 
