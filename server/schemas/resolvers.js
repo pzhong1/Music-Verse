@@ -97,6 +97,7 @@ const resolvers = {
             comment,
           });
 
+          // Assuming you want to associate the comment with a post
           await Post.findByIdAndUpdate(postId, {
             $push: { comments: newComment.id },
           });
@@ -108,16 +109,6 @@ const resolvers = {
       }
 
       throw new AuthenticationError("Must be logged in to add a comment!");
-    },
-
-    addComment: async (parent, { postId, comment }, context) => {
-      if (context.post) {
-        return await Post.findOneAndUpdate(
-          { _id: context.post._id },
-          { $push: { comments: comment } },
-          { new: true }
-        );
-      }
     },
   },
 };
