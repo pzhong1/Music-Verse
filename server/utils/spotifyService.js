@@ -25,7 +25,7 @@ const getToken = async () => {
       }
     );
     token = response.data.access_token;
-  } catch ({error}) {
+  } catch ({ error }) {
     console.log(error);
     console.error("Error getting Spotify token", error);
   }
@@ -56,7 +56,27 @@ const searchMusic = async (query) => {
   }
 };
 
+const getMusicById = async (id) => {
+  try {
+    if (!token) {
+      await getToken();
+    }
+
+    const response = await axios.get(`${baseURL}/tracks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    console.error("Error getting music by ID", error);
+    throw error;
+  }
+};
+
 //export this file so other file can use or share it
 module.exports = {
   searchMusic,
+  getMusicById,
 };

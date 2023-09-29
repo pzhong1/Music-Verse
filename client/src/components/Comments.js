@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
-import '../styles/Comments.css';
+// import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "../styles/Comments.css";
+////
+import API from "../utils/api";
+///
 
-const Comments = () => {
+const Comments = ({ musicId }) => {
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
+
+  useEffect(() => {
+    API.getCommentsByMusicId(musicId).then((response) => {
+      setComments(response.data);
+    });
+  }, [musicId]);
 
   const handleAddComment = () => {
     if (newComment.trim()) {
-      setComments([...comments, newComment]);
-      setNewComment('');
+      API.addComment(musicId, newComment).then((response) => {
+        setComments([...comments, response.data]);
+      });
+      setNewComment("");
     }
   };
 
@@ -24,7 +36,7 @@ const Comments = () => {
       <div className="comments-list">
         {comments.map((comment, index) => (
           <div key={index} className="comment">
-            {comment}
+            {comment.comment}
           </div>
         ))}
       </div>

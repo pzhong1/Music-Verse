@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import './App.css'; // Global styles
+import "./App.css"; // Global styles
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/HomePage";
 import SearchBar from "./components/SearchBar";
 import DarkModeContext from "./DarkModeContext";
+import MusicDetail from "./components/MusicDetail";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     if (isDarkMode) {
-      document.body.classList.add('dark-mode');
+      document.body.classList.add("dark-mode");
     } else {
-      document.body.classList.remove('dark-mode');
+      document.body.classList.remove("dark-mode");
     }
   }, [isDarkMode]);
 
@@ -27,6 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/search" element={<SearchBar />} />
+            <Route path="/music/:id" element={<MusicDetail />} />
             {/* Add more routes as needed */}
           </Routes>
         </Router>

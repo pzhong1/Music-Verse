@@ -7,6 +7,7 @@ const cors = require("cors"); // Import the cors middleware
 const { authMiddleware } = require("./utils/auth");
 const db = require("./config/connection");
 const { typeDefs, resolvers } = require("./schemas");
+const Comment = require("./models/Comment");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -17,7 +18,7 @@ const server = new ApolloServer({
 });
 
 // Enable CORS for all routes
-app.use(cors("http://localhost:3001/"));
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // To handle JSON requests
@@ -38,6 +39,47 @@ app.get("/search", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+/////
+app.get("/music/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const musicData = await spotifyService.getMusicById(id);
+
+    const comments = await Comment.find({ musicId: id });
+    musicData.comments = comments;
+
+    res.json(musicData);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+});
+
+
+app.post("/api/comments", async (req, res) => {
+  try {
+    const { musicId, comment } = req.body;
+
+    const newComment = new Comment({ postId: musicId, comment: comment });
+    await newComment.save();
+
+    res.json(newComment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error saving comment");
+  }
+});
+
+app.get("/api/comments/:musicId", async (req, res) => {
+  try {
+    const musicId = req.params.musicId;
+    const comments = await Comment.find({ musicId: musicId });
+    res.json(comments);
+  } catch (error) {
+    res.status(500).send("Error fetching comments");
+  }
+});
+////
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {

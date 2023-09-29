@@ -1,13 +1,13 @@
 // client/src/components/HomePage.js
 
 // Third-Party Imports
-import React from 'react';
+import React from "react";
 
 // Component Imports
-import Navbar from './Navbar';
+import Navbar from "./Navbar";
 
 // Style Imports
-import '../styles/HomePage.css';
+import "../styles/HomePage.css";
 
 function HomePage() {
   return (
@@ -25,4 +25,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
