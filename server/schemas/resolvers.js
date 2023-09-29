@@ -12,8 +12,10 @@ const resolvers = {
         },
     
         getUser: async (parent, { userId }) => {
-            return User.findOne({ _id: userId});
+            return User.findOne({ _id: userId})
+            .populate("posts");
         },
+
     },
     
 
@@ -55,7 +57,9 @@ const resolvers = {
         },
 
         addFriend: async ( parent, { userId, friendId }, context ) => {
+            if(context.user) {
 
+            }
         },
 
         //User can add a post once logged in
@@ -77,15 +81,31 @@ const resolvers = {
         },
 
         removeUser: async ( parent, { userId }, context ) => {
-            
+            if (context.user) {
+                return User.findOneAndDelete({ _id: context.user._id});
+            }
+            throw new AuthenticationError('You need to login');
         },
 
         removePost: async ( parent, { post }, context) => {
-
+            if (context.user) {
+                return User.findOneAndUpdate(
+                    { _id: context.user._id},
+                    { $pull: { posts: post } },
+                    { new:true }
+                );
+            }
+            throw new AuthenticationError('Need to be login')
         },
 
-        addComment: async ( parent, { postId, userId, comment }, context ) => {
-
+        addComment: async ( parent, { postId, comment }, context ) => {
+            if(context.post) {
+                return await Post.findOneAndUpdate(
+                    { _id: context.post._id},
+                    { $push: {comments: comment} },
+                    { new: true }
+                )
+            }
         }
     }
 
