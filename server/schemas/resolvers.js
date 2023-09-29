@@ -12,7 +12,7 @@ const resolvers = {
     },
 
     getUser: async (parent, { userId }) => {
-      return User.findOne({ _id: userId });
+      return User.findOne({ _id: userId }).populate("posts");
     },
   },
 
@@ -20,9 +20,6 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
       try {
-        console.log("Username: ", username);
-        console.log("Email: ", email);
-        console.log("Pass: ", password);
         const newUser = await User.create({ username, email, password });
         // If additional Authentication Needed
         return newUser;
@@ -50,7 +47,10 @@ const resolvers = {
       return { token, user };
     },
 
-    addFriend: async (parent, { userId, friendId }, context) => {},
+    addFriend: async (parent, { userId, friendId }, context) => {
+      if (context.user) {
+      }
+    },
 
     //User can add a post once logged in
     addPost: async (parent, { userId, post }, context) => {
@@ -69,9 +69,24 @@ const resolvers = {
       throw new AuthenticationError("Must be logged in!");
     },
 
-    removeUser: async (parent, { userId }, context) => {},
+    removeUser: async (parent, { userId }, context) => {
+      if (context.user) {
+        return User.findOneAndDelete({ _id: context.user._id });
+      }
+      throw new AuthenticationError("You need to login");
+    },
 
-    removePost: async (parent, { post }, context) => {},
+    removePost: async (parent, { post }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { posts: post } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("Need to be login");
+    },
+    ////////////////////////////////////////////////////////////////////////////////
 
     addComment: async (parent, { postId, userId, comment }, context) => {
       if (context.user) {
@@ -93,6 +108,16 @@ const resolvers = {
       }
 
       throw new AuthenticationError("Must be logged in to add a comment!");
+    },
+
+    addComment: async (parent, { postId, comment }, context) => {
+      if (context.post) {
+        return await Post.findOneAndUpdate(
+          { _id: context.post._id },
+          { $push: { comments: comment } },
+          { new: true }
+        );
+      }
     },
   },
 };

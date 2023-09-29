@@ -40,6 +40,7 @@ app.get("/search", async (req, res) => {
   }
 });
 
+/////
 app.get("/music/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -54,7 +55,7 @@ app.get("/music/:id", async (req, res) => {
   }
 });
 
-////
+
 app.post("/api/comments", async (req, res) => {
   try {
     const { musicId, comment } = req.body;
