@@ -33,9 +33,12 @@ app.get("/", (req, res) => {
 app.get("/search", async (req, res) => {
   try {
     const query = req.query.q;
+    console.log(`Received search query: ${query}`);
     const results = await spotifyService.searchMusic(query);
+    console.log("Search operation completed successfully");
     res.json(results);
   } catch (error) {
+    console.error("Error in /search route:", error);
     res.status(500).send("Server error");
   }
 });
@@ -54,7 +57,6 @@ app.get("/music/:id", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
 
 app.post("/api/comments", async (req, res) => {
   try {
