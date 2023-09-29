@@ -25,6 +25,7 @@ const getToken = async () => {
       }
     );
     token = response.data.access_token;
+    console.log("Spotify Token:", token);
   } catch ({ error }) {
     console.log(error);
     console.error("Error getting Spotify token", error);
