@@ -60,9 +60,10 @@ app.get("/music/:id", async (req, res) => {
 
 app.post("/api/comments", async (req, res) => {
   try {
+    console.log("Request body:", req.body);
     const { musicId, comment } = req.body;
 
-    const newComment = new Comment({ postId: musicId, comment: comment });
+    const newComment = new Comment({ musicId: musicId, comment: comment });
     await newComment.save();
 
     res.json(newComment);
