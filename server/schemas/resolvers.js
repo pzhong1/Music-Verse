@@ -13,6 +13,12 @@ const resolvers = {
     getUser: async (parent, { userId }) => {
       return User.findOne({ _id: userId }).populate("posts");
     },
+    /////////////this is new/////////////////////////
+    getPost: async (parent, { postId }) => {
+      return Post.findById(postId).populate("comments");
+    },
+
+    //////////////////////////////////////////////
   },
 
   //add User profile to app
@@ -24,7 +30,7 @@ const resolvers = {
         // If additional Authentication Needed
         // create a new token
         const token = signToken(newUser);
-        // we want to return an AUTH datatype 
+        // we want to return an AUTH datatype
         return { token, newUser };
       } catch (err) {
         console.log(err);
@@ -97,26 +103,25 @@ const resolvers = {
     ////////////////////////////////////////////////////////////////////////////////
 
     addComment: async (parent, { postId, userId, comment }, context) => {
-      if (context.user) {
-        try {
-          const newComment = await Comment.create({
-            postId,
-            userId,
-            comment,
-          });
-
-          // Assuming you want to associate the comment with a post
-          await Post.findByIdAndUpdate(postId, {
-            $push: { comments: newComment.id },
-          });
-
-          return newComment;
-        } catch (error) {
-          throw new Error("Error adding comment: ", error);
-        }
-      }
-
-      throw new AuthenticationError("Must be logged in to add a comment!");
+      // if (context.user) {
+      //   try {
+      //     //////this is new////
+      //     console.log("UserId: ", userId);
+      //     ////////////////
+      //     const newComment = await Comment.create({
+      //       postId,
+      //       userId,
+      //       comment,
+      //     });
+      //     await Post.findByIdAndUpdate(postId, {
+      //       $push: { comments: newComment.id },
+      //     });
+      //     return newComment;
+      //   } catch (error) {
+      //     throw new Error("Error adding comment: ", error);
+      //   }
+      // }
+      // throw new AuthenticationError("Must be logged in to add a comment!");
     },
   },
 };
