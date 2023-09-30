@@ -1,4 +1,5 @@
 const { Schema, model} = require('mongoose');
+const bcrypt = require('bcrypt');
 //import { Schema, model } from 'mongoose';
 
 // Schema to create User model 

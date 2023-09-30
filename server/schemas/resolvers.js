@@ -1,8 +1,7 @@
-const AuthenticationError = require("apollo-server-express");
-//import { AuthenticationError } from 'apollo-server-express';
 const { User, Post, Comment } = require("../models");
 //import { User } from '../models';
-const signToken = require("../utils/auth");
+const { signToken, AuthenticationError } = require("../utils/auth");
+const { GraphQLError } = require("graphql");
 //import { signToken } from '../utils/auth';
 
 const resolvers = {
@@ -21,8 +20,12 @@ const resolvers = {
     addUser: async (parent, { username, email, password }) => {
       try {
         const newUser = await User.create({ username, email, password });
+        console.log("New User Instance: ", newUser);
         // If additional Authentication Needed
-        return newUser;
+        // create a new token
+        const token = signToken(newUser);
+        // we want to return an AUTH datatype 
+        return { token, newUser };
       } catch (err) {
         console.log(err);
         throw err;
@@ -34,13 +37,13 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw new AuthenticationError("No such user found with this email!");
+        throw AuthenticationError;
       }
 
-      const rightPW = await User.isCorrectPassword(password);
+      const rightPW = await user.isCorrectPassword(password);
 
       if (!rightPW) {
-        throw new AuthenticationError("Incorrect Password!");
+        throw AuthenticationError;
       }
 
       const token = signToken(user);
@@ -48,7 +51,11 @@ const resolvers = {
     },
 
     addFriend: async (parent, { userId, friendId }, context) => {
+      // if check passses USER is authenticated
       if (context.user) {
+        // this means we HAVE a user to query for --> ADD a NEW FRIEND to the current user
+
+        return user;
       }
     },
 
@@ -67,6 +74,7 @@ const resolvers = {
         );
       }
       throw new AuthenticationError("Must be logged in!");
+      // throw new GraphQLError("Must be logged in!")
     },
 
     removeUser: async (parent, { userId }, context) => {
