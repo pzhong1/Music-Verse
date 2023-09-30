@@ -1,27 +1,32 @@
 /* client/src/styles/Rating.css */
 
+.dark-mode .rating-container {
+  color: white;
+}
+
 .rating-container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
+  display: flex;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.active-star {
+  color: #ffc107; /* Gold color for active star */
+}
+
+
+
+.inactive-star {
+  color: #a9a9a9; /* Grey color for inactive star */
+}
+
+
+
+@media (max-width: 768px) {
+  .rating-container .star {
+    font-size: 18px;
   }
-  
-  .fa-star {
-    color: #ccc;
-    font-size: 24px;
-    margin-right: 5px;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  
-  .fa-star.hover,
-  .fa-star.fas {
-    color: #FFD700; /* Gold/Yellow color for hover and selected stars */
-  }
-  
-  @media (max-width: 768px) {
-    .fa-star {
-      font-size: 18px;
-    }
-  }
-  
+}

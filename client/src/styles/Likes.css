@@ -1,0 +1,21 @@
+.like-container {
+    cursor: pointer;
+    font-size: 24px; /* Adjust the size of the icon */
+    color: #a9a9a9; /* Grey color for the unliked state */
+  }
+  
+  /* Hover effect */
+  .like-container:hover {
+    color: #808080; /* Slightly darker grey for hover state */
+  }
+  
+  /* Liked state styling */
+  .like-container.liked {
+    color: #ff0000; /* Red color for the liked state */
+  }
+  
+  /* Optional: Add some transition for smooth color change */
+  .like-container {
+    transition: color 0.3s ease-in-out;
+  }
+  

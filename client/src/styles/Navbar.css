@@ -1,99 +1,155 @@
-/* client/src/styles/Navbar.css */
+/* General Styling for Navbar Container */
 
-/* Styling for Navbar Component */
-nav {
-    background-color: #333333;
-    overflow: hidden;
-  }
-  
-  nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  nav ul li {
-    float: left;
-  }
-  
-  nav ul li a {
-    color: white;
-    display: block;
-    padding: 14px 20px;
-    text-align: center;
-    text-decoration: none;
-  }
-  
-  nav ul li a:hover {
-    background-color: #111111;
-  }
-  
-  .navbar-container {
-    position: relative; /* Set to relative, so absolute positioning of children is relative to this container */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
+body, html, .navbar, .navbar-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
 
-  .hamburger-icon {
-    margin: 0; /* Ensure no margin */
-    margin-right: 10px; /* Move the hamburger icon slightly to the left */
-    cursor: pointer;
-    font-size: 24px; /* Set the size of the icon */
-    box-shadow: 2px 2px 5px #000000; /* Add shadow */
-    border: 2px solid #000000; /* Add border */
-    padding: 5px; /* Add padding */
-    border-radius: 5px; /* Optional: if you want rounded corners */
-    display: none; /* Hide the hamburger icon by default */
-  }
+.navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  background: linear-gradient(90deg, #FFB447, #FF77A9, #72E1D1);
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for Logo */
+.logo span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #495057; /* Dark text color */
+}
+
+.right-container {
+  display: flex;
+  align-items: center;
+ /* This will push your container to the right */
+}
+
+/* Styling for Hamburger Icon */
+.hamburger-icon {
+  cursor: pointer;
+  display: none; /* Initially hidden, will be displayed for mobile */
+}
+
+.icon {
+  color: #495057; /* Dark icon color */
+}
 
 .nav-links {
-    /* Add your existing styles for nav-links here, and additionally add the following property */
-    transition: max-height 0.3s ease-in-out;
-    overflow: hidden;
-    max-height: 0; /* Initially hidden */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Display the nav links as flex items */
+  opacity: 1; /* Fully visible */
+  max-height: none; /* No height restriction */
+  overflow: visible; /* No overflow restriction */
+}
+
+.nav-links.open {
+  opacity: 1;
+  max-height: 500px; /* Adjust this value to fit the content height */
+}
+
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #495057; /* Dark link color */
+  font-size: 18px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Styling for Logo */
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #495057;
+  text-decoration: none;
+}
+
+/* Dark Mode Adjustments */
+.dark-mode .navbar-container {
+  background: linear-gradient(90deg, #282828, #3e3e3e, #515151);
+}
+
+.dark-mode .logo span,
+.dark-mode .nav-links a,
+.dark-mode .icon {
+  color: #ffffff; /* Light text/icon color */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer; /* Added cursor pointer */
+  background-color: #ccc; /* Moved from .slider */
+  border-radius: 34px; /* Moved from .slider */
+  transition: background-color .4s; /* Adjusted transition */
+}
+
+.slider {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.switch.active {
+  background-color: #2196F3;
+}
+
+.switch.active .slider {
+  transform: translateX(26px);
+}
+
+
+/* Responsive Design for Mobile Users */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
   }
-  
-  .nav-links.open {
-    max-height: 200px; /* Adjust according to your needs */
+
+  .hamburger-icon {
+    display: block; /* Display the hamburger icon for mobile */
   }
-  
-  .nav-links li {
+
+  .nav-links {
     opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.3s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
   }
-  
-  .nav-links.open li {
+
+  .nav-links.open {
     opacity: 1;
-    transform: translateY(0);
+    max-height: 500px;
   }
-  
-  
-  @media (max-width: 768px) {
-    .hamburger-icon {
-        display: block; /* Show the hamburger icon on smaller screens */
-        cursor: pointer;
-        font-size: 24px; /* Set the size of the icon */
-        box-shadow: 2px 2px 5px #000000; /* Add shadow */
-        border: 2px solid #000000; /* Add border */
-        padding: 5px; /* Add padding */
-        border-radius: 5px; /* Optional: if you want rounded corners */
-      }
-    
-      .nav-links {
-        display: none; /* Hide the links by default on smaller screens */
-      }
-    
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-      }
-    }
+
+  .nav-links li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
