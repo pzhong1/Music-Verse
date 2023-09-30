@@ -5,6 +5,7 @@ import LandingPage from "./components/HomePage";
 import SearchBar from "./components/SearchBar";
 import DarkModeContext from "./DarkModeContext";
 import MusicDetail from "./components/MusicDetail";
+import SignInLogin from "./components/SigninLogin";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/search" element={<SearchBar />} />
             <Route path="/music/:id" element={<MusicDetail />} />
+            <Route path="/signin" element={<SignInLogin />} />
             {/* Add more routes as needed */}
           </Routes>
         </Router>

@@ -6,6 +6,7 @@ import DarkModeContext from "../DarkModeContext";
 import Comments from "./Comments"; // Import Comments component
 import Navbar from "./Navbar"; // Import Navbar component
 import { Link } from "react-router-dom";
+import Loading from "./Loading"; // Import Loading component
 
 function SearchBar() {
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -21,16 +22,23 @@ function SearchBar() {
   const searchMusic = async () => {
     setLoading(true);
     setError(null);
+    
     try {
       const response = await API.searchMusic(query);
       setResults(response.data.tracks.items);
+      
+      // Set a timeout to keep the loading animation for an additional 3 seconds
+      setTimeout(() => {
+        setLoading(false);
+      }, 500); // 3 seconds in milliseconds
+      
     } catch (error) {
-      console.error("Error fetching music:", error);
+      console.error("Error fetching music:", error, error.response, error.request);
       setError("Failed to fetch music. Please try again.");
-    } finally {
-      setLoading(false);
+      setLoading(false); // Set loading to false immediately on error
     }
   };
+  
 
   const handleRatingChange = (rating) => {
     console.log("Selected Rating:", rating);
@@ -43,15 +51,6 @@ function SearchBar() {
       <div className="search-bar">
         <h1>Search for Music</h1>
 
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={isDarkMode}
-            onChange={toggleDarkMode}
-          />
-          <span className="slider"></span>
-        </label>
-
         <input
           type="text"
           value={query}
@@ -61,7 +60,7 @@ function SearchBar() {
         <button onClick={searchMusic} disabled={loading}>
           Search
         </button>
-        {loading && <p>Loading...</p>}
+        {loading && <Loading />} {/* Render Loading component */}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         <div>
