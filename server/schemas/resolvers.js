@@ -14,6 +14,7 @@ const resolvers = {
       return User.findOne({ _id: userId }).populate("posts");
     },
     /////////////this is new/////////////////////////
+    ///added this for adding comments
     getPost: async (parent, { postId }) => {
       return Post.findById(postId).populate("comments");
     },

@@ -24,7 +24,7 @@ const typeDefs = gql`
     id: ID!
     userId: ID!
     commentId: ID!
-    comment: String!
+    comment: String! 
   }
 
   type Auth {

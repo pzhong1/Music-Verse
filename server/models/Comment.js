@@ -4,7 +4,7 @@ const commentSchema = new Schema({
   musicId: {
     type: String,
     ref: "Post",
-    required: true,
+    required: false,
   },
   userId: {
     type: Schema.Types.ObjectId,
@@ -13,7 +13,14 @@ const commentSchema = new Schema({
   },
   comment: {
     type: String,
-    required: true,
+    required: false,
+  },
+  // rating //////
+  rating: {
+    type: Number,
+    required: false,
+    min: 1,
+    max: 5,
   },
 });
 

@@ -8,6 +8,7 @@ const { authMiddleware } = require("./utils/auth");
 const db = require("./config/connection");
 const { typeDefs, resolvers } = require("./schemas");
 const Comment = require("./models/Comment");
+const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -29,7 +30,7 @@ if (process.env.NODE_ENV === "production") {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
-
+////////search music//////////
 app.get("/search", async (req, res) => {
   try {
     const query = req.query.q;
@@ -43,7 +44,7 @@ app.get("/search", async (req, res) => {
   }
 });
 
-/////
+/////GET ID////
 app.get("/music/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -57,13 +58,22 @@ app.get("/music/:id", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
+///POST for comments/////
 app.post("/api/comments", async (req, res) => {
   try {
     console.log("Request body:", req.body);
-    const { musicId, comment } = req.body;
+    const { musicId, comment, rating } = req.body;
 
-    const newComment = new Comment({ musicId: musicId, comment: comment });
+    ////////////////
+    if (!musicId || !comment) {
+      return res.status(400).send("musicId and comment are required");
+    }
+
+    const newComment = new Comment({
+      musicId: musicId,
+      comment: comment,
+      rating: rating,
+    });
     await newComment.save();
 
     res.json(newComment);
@@ -82,7 +92,55 @@ app.get("/api/comments/:musicId", async (req, res) => {
     res.status(500).send("Error fetching comments");
   }
 });
-////
+
+////DELETE comments////
+
+app.delete("/api/comments/:id", async (req, res) => {
+  try {
+    const commentId = req.params.id;
+
+    // check if id exsits
+    if (!mongoose.Types.ObjectId.isValid(commentId)) {
+      return res.status(400).send("Invalid commentId");
+    }
+
+    // use Mongoose delete comment
+    const result = await Comment.findByIdAndDelete(commentId);
+
+    // if there is no comment then send 404 error code
+    if (!result) {
+      return res.status(404).send("Comment not found");
+    }
+
+    // if delete success
+    res.send("Comment deleted successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
+/////////POST for Rating///////////
+app.post("/api/rating", async (req, res) => {
+  console.log(req.body);
+  const { rating, musicId, userId } = req.body;
+
+  try {
+    const comment = await Comment.findOne({ musicId, userId });
+    if (comment) {
+      comment.rating = rating;
+      await comment.save();
+    } else {
+      const newComment = new Comment({ musicId, userId, rating });
+      await newComment.save();
+    }
+    res.status(200).json({ message: "Rating saved successfully", rating });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+//////////////////////////////////////////
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {

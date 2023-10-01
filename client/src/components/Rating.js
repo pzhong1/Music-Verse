@@ -1,38 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/Rating.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react";
+import "../styles/Rating.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
+import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 
-const Rating = () => {
+const Rating = ({ onRate }) => {
   const [hover, setHover] = useState(null);
   const [rating, setRating] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     // Retrieve all ratings from localStorage
-    const storedRatings = JSON.parse(localStorage.getItem('ratings') || '[]');
+    const storedRatings = JSON.parse(localStorage.getItem("ratings") || "[]");
     // Calculate the average rating
-    const avgRating = storedRatings.length > 0 ? (storedRatings.reduce((a, b) => a + b) / storedRatings.length) : 0;
+    const avgRating =
+      storedRatings.length > 0
+        ? storedRatings.reduce((a, b) => a + b) / storedRatings.length
+        : 0;
     setAverageRating(avgRating);
   }, []);
 
   const handleStarClick = (starValue) => {
     let newRating = rating === starValue ? 0 : starValue;
     setRating(newRating);
+    onRate(newRating);
     // Retrieve all ratings from localStorage
-    let storedRatings = JSON.parse(localStorage.getItem('ratings') || '[]');
+    let storedRatings = JSON.parse(localStorage.getItem("ratings") || "[]");
     // Check if storedRatings is an array, if not, initialize it as an empty array
     if (!Array.isArray(storedRatings)) {
-        storedRatings = [];
+      storedRatings = [];
     }
     // Add the new rating to the array
     storedRatings.push(newRating);
-    localStorage.setItem('ratings', JSON.stringify(storedRatings));
+    localStorage.setItem("ratings", JSON.stringify(storedRatings));
     // Update the average rating
-    const avgRating = storedRatings.length > 0 ? (storedRatings.reduce((a, b) => a + b) / storedRatings.length) : 0;
+    const avgRating =
+      storedRatings.length > 0
+        ? storedRatings.reduce((a, b) => a + b) / storedRatings.length
+        : 0;
     setAverageRating(avgRating);
-};
+  };
 
   return (
     <div className="rating-container">
@@ -49,9 +56,11 @@ const Rating = () => {
             onMouseLeave={() => setHover(null)}
             onClick={() => handleStarClick(starValue)}
           >
-            <FontAwesomeIcon 
+            <FontAwesomeIcon
               icon={isHovered || isSelected ? fasStar : farStar}
-              className={`${isHovered ? 'hovered-star' : ''} ${isSelected ? 'active-star' : 'inactive-star'}`}
+              className={`${isHovered ? "hovered-star" : ""} ${
+                isSelected ? "active-star" : "inactive-star"
+              }`}
             />
           </span>
         );
