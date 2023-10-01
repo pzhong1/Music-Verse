@@ -4,10 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 
-const Rating = ({ onRate }) => {
-  const [hover, setHover] = useState(null);
+const Rating = ({ onRate, isAverage = false, currentRating }) => {
+  const [hover, setHover] = useState(0);
   const [rating, setRating] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
+  useEffect(() => {
+    setRating(currentRating);
+  }, [currentRating]);
 
   useEffect(() => {
     // Retrieve all ratings from localStorage
@@ -21,24 +24,28 @@ const Rating = ({ onRate }) => {
   }, []);
 
   const handleStarClick = (starValue) => {
+    if (starValue < 1 || starValue > 5) return;
     let newRating = rating === starValue ? 0 : starValue;
     setRating(newRating);
-    onRate(newRating);
-    // Retrieve all ratings from localStorage
+    if (typeof onRate === "function") {
+      onRate(newRating);
+    }
     let storedRatings = JSON.parse(localStorage.getItem("ratings") || "[]");
-    // Check if storedRatings is an array, if not, initialize it as an empty array
+
     if (!Array.isArray(storedRatings)) {
       storedRatings = [];
     }
-    // Add the new rating to the array
+
     storedRatings.push(newRating);
     localStorage.setItem("ratings", JSON.stringify(storedRatings));
-    // Update the average rating
+
     const avgRating =
       storedRatings.length > 0
         ? storedRatings.reduce((a, b) => a + b) / storedRatings.length
         : 0;
-    setAverageRating(avgRating);
+    const roundedAvgRating = Math.round(avgRating);
+
+    setAverageRating(roundedAvgRating);
   };
 
   return (
@@ -66,9 +73,7 @@ const Rating = ({ onRate }) => {
         );
       })}
       {averageRating > 0 && (
-        <div className="average-rating">
-          Average Rating: {averageRating.toFixed(2)}
-        </div>
+        <div className="average-rating">Rating: {rating}</div>
       )}
     </div>
   );

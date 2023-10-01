@@ -9,7 +9,16 @@ import Rating from "./Rating";
 const Comments = ({ musicId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [newRating, setNewRating] = useState(1);
+  const [newRating, setNewRating] = useState(0);
+
+  //////////////////////////
+  const averageRating =
+    comments.length > 0
+      ? comments.reduce((total, comment) => total + comment.rating, 0) /
+        comments.length
+      : 0;
+
+  /////////////////////////
 
   useEffect(() => {
     API.getCommentsByMusicId(musicId).then((response) => {
@@ -25,7 +34,7 @@ const Comments = ({ musicId }) => {
         setComments([...comments, response.data]);
       });
       setNewComment("");
-      setNewRating(1);
+      setNewRating(0);
     }
   };
 
@@ -48,7 +57,17 @@ const Comments = ({ musicId }) => {
 
   return (
     <div className="comments-section">
-      <Rating onRate={setNewRating} />
+      {/* display avg rating  */}
+      {comments.length > 0 && (
+        <div
+          style={{ marginBottom: "20px", textAlign: "center" }}
+          className="average-rating"
+        >
+          Average Rating: {averageRating.toFixed(1)}
+        </div>
+      )}
+      {/*  /////////////////////////*/}
+      <Rating onRate={setNewRating} currentRating={newRating} />
       <textarea
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
@@ -56,6 +75,7 @@ const Comments = ({ musicId }) => {
         rows="3"
       />
       <button onClick={handleAddComment}>Post Comment</button>
+
       <div className="comments-list">
         {comments.map((comment, index) => (
           <div key={index} className="comment">

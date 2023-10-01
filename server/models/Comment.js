@@ -18,8 +18,8 @@ const commentSchema = new Schema({
   // rating //////
   rating: {
     type: Number,
-    required: false,
-    min: 1,
+    required: true,
+    min: 0,
     max: 5,
   },
 });
