@@ -2,21 +2,20 @@
 /* Adding gradient background to the whole app */
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient( #ff6b6b, #ff897a, #ffad73);
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(#ff6b6b, #ff897a, #ffad73);
   min-height: 100vh;
 }
 
-
 /* Dark mode background and text color */
 body.dark-mode {
-  background: linear-gradient( #333333, #444444, #555555);
+  background: linear-gradient(#333333, #444444, #555555);
   color: #ffffff; /* Set text color to white */
 }
 
 .dark-mode .comment {
   color: #000000; /* Set text color to black */
-  }
+}
 
 /* If there are specific elements you want to style in dark mode, add the .dark-mode class */
 .dark-mode h1,
@@ -26,7 +25,6 @@ body.dark-mode {
 }
 
 .dark-mode .music-card {
-background-color: #2d2d2d;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: #2d2d2d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
-
