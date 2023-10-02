@@ -9,6 +9,8 @@ const db = require("./config/connection");
 const { typeDefs, resolvers } = require("./schemas");
 const Comment = require("./models/Comment");
 const mongoose = require("mongoose");
+const User = require('./models/User');
+const { signToken } = require('./utils/auth');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -23,6 +25,57 @@ app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // To handle JSON requests
+
+// Login route
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Find the user by email
+  const user = await User.findOne({ email });
+
+  // If no user is found, return an error
+  if (!user) {
+      return res.status(400).json({ message: 'No email found, please sign up!' });
+  }
+
+  // Check if the provided password matches the hashed password in the database
+  const isCorrectPassword = await user.isCorrectPassword(password);
+
+  if (!isCorrectPassword) {
+      return res.status(400).json({ message: 'Incorrect password or username' });
+  }
+
+  // If the password is correct, sign a token for the user
+  const token = signToken(user);
+
+  // Send the token to the client
+  res.json({ token });
+});
+
+// Signup route
+app.post('/api/signup', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Check if user with the given email already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: 'Email already exists!' });
+  }
+
+  // Create a new user
+  const user = new User({ username, email, password });
+  try {
+    await user.save();
+
+    // Sign a token for the new user
+    const token = signToken(user);
+    res.json({ token });
+  }catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: error.message }); // Return the actual error message to the client
+  }  
+});
+
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));

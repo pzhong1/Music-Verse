@@ -28,12 +28,23 @@ const deleteComment = (commentId) => {
   return axios.delete(`http://localhost:3001/api/comments/${commentId}`);
 };
 
+const loginUser = (email, password) => {
+  return axios.post('http://localhost:3001/api/login', { email, password });
+};
+
+const signupUser = (username, email, password) => {
+  return axios.post('http://localhost:3001/api/signup', { username, email, password });
+};
+
+
 const API = {
   searchMusic,
   getMusicById,
   addComment,
   getCommentsByMusicId,
   deleteComment,
+  loginUser,
+  signupUser,
 };
 
 export default API;

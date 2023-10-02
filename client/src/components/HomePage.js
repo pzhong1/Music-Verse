@@ -1,27 +1,45 @@
-import React, { useContext } from 'react'; 
-import { useNavigate } from 'react-router-dom'; 
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import '../styles/HomePage.css';
 import albumCover from '../../src/assets/images/BattleLA.jpg';
 import DarkModeContext from '../DarkModeContext';
 import ProfilePic from './ProfilePic';
-import Likes from './Likes'; // Import the Likes component
+import Likes from './Likes';
+import AuthService from '../utils/auth';
 
 function HomePage() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    async function fetchUsername() {
+      const userProfile = AuthService.getProfile();
+  
+      if (userProfile && userProfile.username) {
+        console.log('Setting username:', userProfile.username); // Add this line
+        setUsername(userProfile.username);
+      } else {
+        setUsername('');
+      }
+    }
+  
+    fetchUsername();
+  }, []);
+  
   
   const handleClick = () => {
     navigate('/search');
   };
-  
-  const { isDarkMode } = useContext(DarkModeContext); 
+
+  const { isDarkMode } = useContext(DarkModeContext);
 
   return (
     <>
       <Navbar />
       <div className={`landing-page ${isDarkMode ? 'dark-mode' : ''}`}>
         <header>
-          <h1>Welcome to Music Verse</h1>
+        <h1>Welcome to Music Verse {username && ` ${username}`}</h1>
           <p>Connect with music lovers around the world!</p>
           <button onClick={handleClick}>Get Started</button>
         </header>
@@ -34,12 +52,12 @@ function HomePage() {
                 <span className="username">Dudebro: </span> This is a placeholder comment!
               </div>
               <div className="profile-and-likes">
-                <ProfilePic/>
-                 <Likes/>
+                <ProfilePic />
+                <Likes />
               </div>
             </div>
           </div>
-  
+
           <div className="card">
             <img src={albumCover} alt="Album Cover" />
             <div className="card-content">
@@ -48,15 +66,15 @@ function HomePage() {
                 <span className="username">RockManz: </span> This is another placeholder comment!
               </div>
               <div className="profile-and-likes">
-                <ProfilePic/> Username
-                <Likes/> Likes: 2, Comments: 42
+                <ProfilePic /> Username
+                <Likes /> Likes: 2, Comments: 42
               </div>
             </div>
           </div>
         </div>
       </div>
     </>
-  );  
+  );
 }
 
 export default HomePage;
