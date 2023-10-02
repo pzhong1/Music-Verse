@@ -66,8 +66,8 @@ const Comments = ({ musicId }) => {
       {/* display avg rating  */}
       {comments.length > 0 && (
         <div
-          style={{ marginBottom: "20px", textAlign: "center" }}
-          className="average-rating"
+          style={{ marginBottom: "20px", textAlign: "center", color: "orange" }}
+          className="average-rating "
         >
           Average Rating: {averageRating.toFixed(1)}
         </div>
@@ -91,8 +91,10 @@ const Comments = ({ musicId }) => {
         {comments.map((comment, index) => (
           <div key={index} className="comment">
             {comment.comment}
-            <p>Rating: {comment.rating}</p>
-            <p>Date: {comment.date ? comment.date : "No Date"}</p>
+            <p style={{ color: "orange" }}>Rating: {comment.rating}</p>
+            <p style={{ color: "orange" }}>
+              Date: {comment.date ? comment.date : "No Date"}
+            </p>
             {isLoggedIn && (
               <button onClick={() => handleDeleteComment(comment._id)}>
                 Delete
