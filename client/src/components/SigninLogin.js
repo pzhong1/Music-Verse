@@ -3,6 +3,7 @@ import '../styles/SignupLogin.css';
 import Navbar from './Navbar';
 import AuthService from '../utils/auth';
 import API from '../utils/api'; // Adjust the path accordingly
+import Loading from './Loading'; // Adjust the path if necessary
 
 const SignInLogin = () => {
     const [email, setEmail] = useState('');
@@ -14,70 +15,114 @@ const SignInLogin = () => {
     const [emailExistsError, setEmailExistsError] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(AuthService.loggedIn()); // Check if user is already logged in
     const [showWelcomeBack, setShowWelcomeBack] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        // Handle isLoading state
+        if (isLoading) {
+            const timer = setTimeout(() => {
+                setIsLoading(false); // Stop loading animation
+                setSignInSuccess(true);
+            }, 2000); // 2 seconds delay
+    
+            // Cleanup timer on component unmount
+            return () => clearTimeout(timer);
+        }
+    
+        // Handle signUp and signIn button events
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
         const container = document.getElementById('container');
-
+    
         const handleSignUpClick = () => container.classList.add("right-panel-active");
         const handleSignInClick = () => container.classList.remove("right-panel-active");
-
+    
         signUpButton.addEventListener('click', handleSignUpClick);
         signInButton.addEventListener('click', handleSignInClick);
+    
         // Update the isLoggedIn state when the user logs in or out
         setIsLoggedIn(AuthService.loggedIn());
+    
+        // Cleanup event listeners on component unmount
         return () => {
             signUpButton.removeEventListener('click', handleSignUpClick);
             signInButton.removeEventListener('click', handleSignInClick);
         };
-    }, []);
+    }, [isLoading]);
+    
 
-	const handleSignUp = async (e) => {
-		e.preventDefault();
-		try {
-			const response = await API.signupUser(username, email, password);
-	
-			if (response && response.data && response.data.token) {
-				AuthService.login(response.data.token);
-				setSignUpSuccess(true);
-				setEmailExistsError(false); // Reset the error state if sign up is successful
-			} else if (response && response.data && response.data.message === 'Email already exists!') {
-				setEmailExistsError(true); // Set the error state if email already exists
-			} else {
-				// Handle other signup errors
-				console.error("Error signing up:", response);
-			}
-		} catch (error) {
-			console.error("API call failed:", error);
-			if (error.response && error.response.data && error.response.data.message === 'Email already exists!') {
-				setEmailExistsError(true);
-			}
-		}
-	}	
-
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        
+        const startTime = Date.now(); // Record the start time
+        
+        try {
+            const response = await API.signupUser(username, email, password);
+            
+            if (response && response.data && response.data.token) {
+                AuthService.login(response.data.token);
+                setSignUpSuccess(true);
+                setEmailExistsError(false);
+            } else if (response && response.data && response.data.message === 'Email already exists!') {
+                setEmailExistsError(true);
+            } else {
+                console.error("Error signing up:", response);
+            }
+        } catch (error) {
+            console.error("API call failed:", error);
+            if (error.response && error.response.data && error.response.data.message === 'Email already exists!') {
+                setEmailExistsError(true);
+            }
+        } finally {
+            const endTime = Date.now(); // Record the end time
+            const elapsed = endTime - startTime;
+            const delay = Math.max(0, 5000 - elapsed); // Calculate the remaining time to reach 5 seconds
+        
+            setTimeout(() => {
+                setIsLoading(false);
+            }, delay);
+        }
+    };
+    
     const handleSignIn = async (e) => {
         e.preventDefault();
-      
-        const response = await API.loginUser(email, password);
-      
-        if (response && response.error) {
-          setSignInError(true);
-        } else if (response && response.token) {
-          // Use AuthService to handle login
-          AuthService.login(response.token);
-          setSignInSuccess(true);
-          setSignInError(false);
-          setShowWelcomeBack(true); // Set showWelcomeBack to true here
-        } else {
-          // Handle unexpected cases where response is undefined or doesn't have expected properties
-          console.error("Unexpected response from loginUser:", response);
+        setIsLoading(true);
+        
+        const startTime = Date.now(); // Record the start time
+        
+        try {
+            const response = await API.loginUser(email, password);
+            
+            if (response && response.error) {
+                setSignInError(true);
+            } else if (response && response.token) {
+                AuthService.login(response.token);
+                setSignInSuccess(true);
+                setSignInError(false);
+                setShowWelcomeBack(true);
+            } else {
+                console.error("Unexpected response from loginUser:", response);
+            }
+        } catch (error) {
+            console.error("Error during signIn:", error);
+        } finally {
+            const endTime = Date.now(); // Record the end time
+            const elapsed = endTime - startTime;
+            const delay = Math.max(0, 5000 - elapsed); // Calculate the remaining time to reach 5 seconds
+        
+            setTimeout(() => {
+                setIsLoading(false);
+            }, delay);
         }
     };    
 
     return (
         <>
             <Navbar />
+            {isLoading ? (
+            <Loading />
+        ) : (
             <div className="signin-login-wrapper">
                 <h2>Welcome to MusicVerse</h2>
                 {isLoggedIn ? (
@@ -149,6 +194,7 @@ const SignInLogin = () => {
                     {/* ... footer content ... */}
                 </footer>
             </div>
+            )}
         </>
     );    
 }
