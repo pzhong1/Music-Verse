@@ -30,9 +30,13 @@ const Comments = ({ musicId }) => {
     if (newComment.trim()) {
       const ratingValue = newRating;
       console.log("Rating Value:", ratingValue);
-      API.addComment(musicId, newComment, ratingValue).then((response) => {
-        setComments([...comments, response.data]);
-      });
+      const currentDate = new Date().toLocaleString(); //for display date
+      API.addComment(musicId, newComment, ratingValue, currentDate).then(
+        (response) => {
+          loadComments();
+          // setComments([...comments, response.data]);
+        }
+      );
       setNewComment("");
       setNewRating(0);
     }
@@ -81,6 +85,7 @@ const Comments = ({ musicId }) => {
           <div key={index} className="comment">
             {comment.comment}
             <p>Rating: {comment.rating}</p>
+            <p>Date: {comment.date ? comment.date : "No Date"}</p>
 
             {/* delete and uncomment the code below after the signin and signup is working */}
             {/* {currentUser && comment.userId === currentUser.id && ( */}

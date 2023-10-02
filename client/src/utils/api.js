@@ -10,11 +10,12 @@ const getMusicById = (id) => {
 };
 
 ////////////ADD comments////////////
-const addComment = (musicId, comment, rating) => {
+const addComment = (musicId, comment, rating, date) => {
   return axios.post(`http://localhost:3001/api/comments`, {
     musicId,
     comment,
     rating,
+    date,
   });
 };
 ///////GET comments ///////////
