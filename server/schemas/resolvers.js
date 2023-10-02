@@ -2,6 +2,7 @@ const { User, Post, Comment } = require("../models");
 //import { User } from '../models';
 const { signToken, AuthenticationError } = require("../utils/auth");
 const { GraphQLError } = require("graphql");
+
 //import { signToken } from '../utils/auth';
 
 const resolvers = {
@@ -24,20 +25,16 @@ const resolvers = {
 
   //add User profile to app
   Mutation: {
-    addUser: async (parent, { username, email, password }) => {
+    addUser: async (_, { username, email, password }) => {
       try {
-        const newUser = await User.create({ username, email, password });
-        console.log("New User Instance: ", newUser);
-        // If additional Authentication Needed
-        // create a new token
-        const token = signToken(newUser);
-        // we want to return an AUTH datatype
-        return { token, newUser };
+        const user = await User.create({ username, email, password });
+        const token = signToken(user);
+        return { token, user: user };
       } catch (err) {
-        console.log(err);
-        throw err;
+        console.error(err);
+        throw new Error('Error creating user');
       }
-    },
+    },  
 
     //allow User to login
     login: async (parent, { email, password }) => {
@@ -104,26 +101,26 @@ const resolvers = {
     ////////////////////////////////////////////////////////////////////////////////
 
     addComment: async (parent, { postId, userId, comment }, context) => {
-      // if (context.user) {
-      //   try {
-      //     //////this is new////
-      //     console.log("UserId: ", userId);
-      //     ////////////////
-      //     const newComment = await Comment.create({
-      //       postId,
-      //       userId,
-      //       comment,
-      //     });
-      //     await Post.findByIdAndUpdate(postId, {
-      //       $push: { comments: newComment.id },
-      //     });
-      //     return newComment;
-      //   } catch (error) {
-      //     throw new Error("Error adding comment: ", error);
-      //   }
-      // }
-      // throw new AuthenticationError("Must be logged in to add a comment!");
-    },
+      if (context.user) {
+        try {
+          //////this is new////
+          console.log("UserId: ", userId);
+          ////////////////
+          const newComment = await Comment.create({
+            postId,
+            userId,
+            comment,
+          });
+          await Post.findByIdAndUpdate(postId, {
+            $push: { comments: newComment.id },
+          });
+          return newComment;
+        } catch (error) {
+          throw new Error("Error adding comment: ", error);
+        }
+      }
+      throw new AuthenticationError("Must be logged in to add a comment!");
+    },   
   },
 };
 
