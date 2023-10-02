@@ -23,8 +23,11 @@ const server = new ApolloServer({
 // Enable CORS for all routes
 app.use(cors());
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.static('../client/dist'));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // To handle JSON requests
+
+require('./routes/htmlRoutes')(app);
 
 // Login route
 app.post('/api/login', async (req, res) => {

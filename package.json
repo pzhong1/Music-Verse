@@ -4,9 +4,13 @@
   "description": " ",
   "main": "server.js",
   "scripts": {
-    "start": "node server/server.js && cd server && node server.js & cd client && npm start",
+    "start": "node server/server.js && npm run build && cd server && node server.js & cd client && npm start",
     "heroku-postbuild": "cd client && npm install && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
+    "build": "cd client && npm run build",
+    "server": "cd server nodemon server.js --ignore client",
+    "start:dev": "concurrently \"cd server && npm run server\" \"cd client && npm run dev\"",
+    "client": "cd client && npm start",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
   },
   "keywords": [],
@@ -17,7 +21,8 @@
     "npm": "7.x"
   },
   "devDependencies": {
-    "concurrently": "^8.2.1"
+    "concurrently": "^8.2.1",
+    "nodemon": "^3.0.1"
     
   },
   "dependencies": {
@@ -27,6 +32,9 @@
     "axios": "^1.5.1",
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.1",
+    "core-js": "^3.33.0",
+    "express": "^4.18.2",
+    "if-env": "^1.0.4",
     "react-scripts": "^5.0.1"
   }
 }

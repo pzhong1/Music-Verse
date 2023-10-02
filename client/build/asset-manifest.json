@@ -1,14 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.31d6cfe0.css",
-    "main.js": "/static/js/main.f9266631.js",
+    "main.css": "/static/css/main.20847a52.css",
+    "main.js": "/static/js/main.f8ef242e.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/IMG_3645.jpeg": "/static/media/IMG_3645.55ba332dc16d0c282696.jpeg",
+    "static/media/BattleLA.jpg": "/static/media/BattleLA.f634659e5a7723a19c75.jpg",
     "index.html": "/index.html",
-    "main.f9266631.js.map": "/static/js/main.f9266631.js.map",
+    "main.20847a52.css.map": "/static/css/main.20847a52.css.map",
+    "main.f8ef242e.js.map": "/static/js/main.f8ef242e.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.31d6cfe0.css",
-    "static/js/main.f9266631.js"
+    "static/css/main.20847a52.css",
+    "static/js/main.f8ef242e.js"
   ]
 }
