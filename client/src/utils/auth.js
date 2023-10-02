@@ -2,7 +2,46 @@ import decode from 'jwt-decode';
 
 class AuthService {
   getProfile() {
-    return decode(this.getToken());
+    let decoded = null; // Define decoded here with a default value
+  
+    try {
+      const token = this.getToken();
+      console.log('Token:', token); // Add this line for debugging
+      if (!token) return null;
+  
+      decoded = decode(token); // Assign a value to decoded
+      console.log('Decoded Token:', decoded); // Add this line for debugging
+    } catch (error) {
+      console.error('Error decoding token:', error.message);
+      return null;
+    }
+  
+    return decoded; // Return the decoded token
+  }
+  
+
+  isAuthenticated() {
+    const token = this.getToken();
+    if (!token) return false;
+
+    try {
+      const decodedToken = decode(token);
+      const currentTime = Date.now() / 1000; // Convert current time to seconds
+
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        // Token has expired
+        // Handle expiration, such as logging the user out
+        console.log('Token has expired');
+        return false;
+      } else {
+        // Token is valid
+        console.log('Token is valid');
+        return true;
+      }
+    } catch (error) {
+      console.error('Error decoding token:', error.message);
+      return false;
+    }
   }
 
   loggedIn() {
