@@ -15,6 +15,9 @@ const commentSchema = new Schema({
     type: String,
     required: false,
   },
+  date: {
+    type: String,
+  },
   // rating //////
   rating: {
     type: Number,

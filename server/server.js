@@ -115,7 +115,7 @@ app.get("/music/:id", async (req, res) => {
 app.post("/api/comments", async (req, res) => {
   try {
     console.log("Request body:", req.body);
-    const { musicId, comment, rating } = req.body;
+    const { musicId, comment, rating, date } = req.body;
 
     ////////////////
     if (!musicId || !comment) {
@@ -126,9 +126,10 @@ app.post("/api/comments", async (req, res) => {
       musicId: musicId,
       comment: comment,
       rating: rating,
+      date: date,
     });
     await newComment.save();
-
+    console.log(newComment);
     res.json(newComment);
   } catch (error) {
     console.error(error);
