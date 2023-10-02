@@ -15,10 +15,11 @@ function HomePage() {
   useEffect(() => {
     async function fetchUsername() {
       const userProfile = AuthService.getProfile();
+      console.log('User Profile from AuthService:', userProfile);
   
-      if (userProfile && userProfile.username) {
-        console.log('Setting username:', userProfile.username); // Add this line
-        setUsername(userProfile.username);
+      if (userProfile && userProfile.data && userProfile.data.username) {
+        console.log('Fetched username:', userProfile.data.username);
+        setUsername(userProfile.data.username);
       } else {
         setUsername('');
       }
@@ -27,6 +28,7 @@ function HomePage() {
     fetchUsername();
   }, []);
   
+
   
   const handleClick = () => {
     navigate('/search');
@@ -39,7 +41,8 @@ function HomePage() {
       <Navbar />
       <div className={`landing-page ${isDarkMode ? 'dark-mode' : ''}`}>
         <header>
-        <h1>Welcome to Music Verse {username && ` ${username}`}</h1>
+          <h1>Welcome to Music Verse</h1>
+          {username && <h2>{username}</h2>}
           <p>Connect with music lovers around the world!</p>
           <button onClick={handleClick}>Get Started</button>
         </header>

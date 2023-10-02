@@ -79,8 +79,6 @@ const loginUser = async (email, password) => {
   }
 };
 
-
-
 const signupUser = async (username, email, password) => {
   const { data } = await client.mutate({
     mutation: ADD_USER,
