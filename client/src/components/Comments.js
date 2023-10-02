@@ -5,11 +5,13 @@ import "../styles/Comments.css";
 import API from "../utils/api";
 //////
 import Rating from "./Rating";
+import AuthService from "../utils/auth";
 
 const Comments = ({ musicId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(AuthService.isAuthenticated());
 
   //////////////////////////
   const averageRating =
@@ -70,15 +72,20 @@ const Comments = ({ musicId }) => {
           Average Rating: {averageRating.toFixed(1)}
         </div>
       )}
-      {/*  /////////////////////////*/}
-      <Rating onRate={setNewRating} currentRating={newRating} />
-      <textarea
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-        placeholder="Add a comment..."
-        rows="3"
-      />
-      <button onClick={handleAddComment}>Post Comment</button>
+      {isLoggedIn ? (
+        <>
+          <Rating onRate={setNewRating} currentRating={newRating} />
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+            rows="3"
+          />
+          <button onClick={handleAddComment}>Post Comment</button>
+        </>
+      ) : (
+        <p style={{ color: "red" }}>Only members can comment.</p>
+      )}
 
       <div className="comments-list">
         {comments.map((comment, index) => (
@@ -86,14 +93,11 @@ const Comments = ({ musicId }) => {
             {comment.comment}
             <p>Rating: {comment.rating}</p>
             <p>Date: {comment.date ? comment.date : "No Date"}</p>
-
-            {/* delete and uncomment the code below after the signin and signup is working */}
-            {/* {currentUser && comment.userId === currentUser.id && ( */}
-            <button onClick={() => handleDeleteComment(comment._id)}>
-              Delete
-            </button>
-            {/* )}  uncomment this')}' after the signin and signup is working*/}
-            {/*  */}
+            {isLoggedIn && (
+              <button onClick={() => handleDeleteComment(comment._id)}>
+                Delete
+              </button>
+            )}
           </div>
         ))}
       </div>
