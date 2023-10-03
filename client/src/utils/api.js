@@ -9,7 +9,8 @@ const client = new ApolloClient({
 
 //get http request for 3001
 const searchMusic = (query) => {
-  return axios.get(`/search?q=${query}`);
+  console.log(`Searching for music with query: ${query}`);
+  return axios.get(`/search/${query}`);
 };
 
 const getMusicById = (id) => {

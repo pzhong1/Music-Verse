@@ -83,11 +83,18 @@ if (process.env.NODE_ENV === "production") {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
+
 ////////search music//////////
-app.get("/search", async (req, res) => {
+app.get("/search/:q", async (req, res) => {
   try {
-    const query = req.query.q;
+    const query = req.params.q; // Use req.params.q instead of req.query.q
     console.log(`Received search query: ${query}`);
+    
+    if (!query) {
+      return res.status(400).json({ error: "Search query is required." });
+    }
+
+    console.log(`Processing search for query: ${query}`); // Added this line
     const results = await spotifyService.searchMusic(query);
     console.log("Search operation completed successfully");
     res.json(results);
