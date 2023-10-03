@@ -1,7 +1,7 @@
 # Music Verse
 
 ## Overview
-Music Verse  is an avant-garde platform dedicated to music aficionados, offering a space to explore, critique, and share musical interests. Dive into the latest tracks, pen down insightful reviews, appraise tunes, and initiate posts that ignite engaging discussions within the music community.
+**Music Verse**  is an avant-garde platform dedicated to music aficionados, offering a space to explore, critique, and share musical interests. Dive into the latest tracks, pen down insightful reviews, appraise tunes, and initiate posts that ignite engaging discussions within the music community.
 
 ## Links
 
