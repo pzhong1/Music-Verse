@@ -21,7 +21,7 @@ https://music-verse2-57f59708a605.herokuapp.com/
 * [Screenshots](#screenshots)
 * [Features](#features)
 * [Technologies-Used](#technologies-used)
-* [Project Requirements](#Project Requirements)
+* [Project-Requirements](#Project-Requirements)
 * [Collaborators](#collaborators)
 
 
@@ -31,23 +31,23 @@ https://music-verse2-57f59708a605.herokuapp.com/
 
 
   ## Features
+* Explore a wide array of music.
+* Express thoughts via comprehensive reviews.
+* Assign ratings to tracks.
+* Initiate and manage interactive posts.
+* Engage with community posts through likes and comments.
+* Switch between light and dark user interface modes.
+* Secure login and signup options.
 
-  * Search for music
-  * Write reviews
-  * Rate music
-  * Create posts
-  * Interact with posts: like & comment
-  * Light/dark mode
-  * Login/sign up accounts
 
 ## Technologies Used
 
-* React
-* GraphQL, Node, & Express
-* MongoDB & Mongoose ODM
-* Heroku
-* JWT
-* Spotify API
+* Frontend: React
+* Backend: GraphQL, Node.js, Express.js
+* Database: MongoDB with Mongoose ODM
+* Deployment: Heroku
+* Authentication: JSON Web Tokens (JWT)
+* External API: Spotify
 
 ## Project Requirements
 Use React for the front end.  
