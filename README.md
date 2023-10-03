@@ -1,8 +1,19 @@
 # Music Verse
 
+## Links
+
+The URL of the deployed application: 
+
+[https://pzhong1.github.io/BA-travel-/](https://github.com/pzhong1/Music-Verse.git)
+
+
+The URL of the GitHub repository:
+
+https://music-verse2-57f59708a605.herokuapp.com/
+
 ## Description
 
-Music Verse is a social platform that revolves around sharing your love for music with others! On Music Verse you can search and discover new songs, write reviews, rate music, and even create posts that others can interact with.
+    Music Verse is a cutting-edge music-centric platform designed for enthusiasts to explore, critique, and share their passion for melodies and harmonies. Within Music       Verse, users can delve into new tracks, offer comprehensive reviews, evaluate compositions, and craft posts that foster dynamic interactions within the community.
 
 ## Table of Contents
 
@@ -12,10 +23,6 @@ Music Verse is a social platform that revolves around sharing your love for musi
 * [Features](#features)
 * [Technologies-Used](#technologies-used)
 * [Collaborators](#collaborators)
-
-## Deployed-URL
-
-<a href="https://music-verse2-e3bd756d0e66.herokuapp.com/"> Link to application</a>
 
 
 ## Screenshots
