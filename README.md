@@ -4,7 +4,7 @@
 
 The URL of the deployed application: 
 
-[https://pzhong1.github.io/BA-travel-/](https://github.com/pzhong1/Music-Verse.git)
+https://github.com/pzhong1/Music-Verse.git
 
 
 The URL of the GitHub repository:
