@@ -30,7 +30,7 @@ https://music-verse2-57f59708a605.herokuapp.com/
 ![ezgif com-gif-maker](https://github.com/pzhong1/Music-Verse/assets/123424361/b82a0d42-7be7-4aba-8592-059a9d0f21b4)
 
 
-  ## Features
+## Features
 * Explore a wide array of music.
 * Express thoughts via comprehensive reviews.
 * Assign ratings to tracks.
@@ -42,24 +42,24 @@ https://music-verse2-57f59708a605.herokuapp.com/
 
 ## Technologies Used
 
-* Frontend: React
-* Backend: GraphQL, Node.js, Express.js
-* Database: MongoDB with Mongoose ODM
-* Deployment: Heroku
-* Authentication: JSON Web Tokens (JWT)
-* External API: Spotify
+* **Frontend**: React
+* **Backend**: GraphQL, Node.js, Express.js
+* **Database**: MongoDB with Mongoose ODM
+* **Deployment**: Heroku
+* **Authentication**: JSON Web Tokens (JWT)
+* **External API**: Spotify
 
 ## Project Requirements
-Use React for the front end.  
-Use GraphQL with a Node.js and Express.js server.  
-Use MongoDB and the Mongoose ODM for the database.  
-Use queries and mutations for retrieving, adding, updating, and deleting data.  
-Be deployed using Heroku (with data).  
+Use **React** for the front end.  
+Use **GraphQL** with a **Node.js** and **Express.js** server.  
+Use **MongoDB** and the **Mongoose ODM** for the database.  
+Use **queries** and **mutations** for retrieving, adding, updating, and deleting data.  
+Be deployed using **Heroku** (with data).  
 Have a polished UI.  
 Be responsive.  
 Be interactive (i.e., accept and respond to user input).  
-Include authentication (JWT).  
-Protect sensitive API key information on the server.  
+Include authentication **(JWT)**.  
+Protect **sensitive API key** information on the server.  
 Have a clean repository that meets quality coding standards (file structure, naming conventions, best practices for class and id naming conventions, indentation, high-quality comments, and so on).  
 Have a high-quality README (with unique name, description, technologies used, screenshot, and link to deployed application).  
 
