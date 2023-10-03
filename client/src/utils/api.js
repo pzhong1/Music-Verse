@@ -13,7 +13,7 @@ const searchMusic = (query) => {
 };
 
 const getMusicById = (id) => {
-  return axios.get(`http://localhost:3001/music/${id}`);
+  return axios.get(`/music/${id}`);
 };
 
 ////////////ADD comments////////////
