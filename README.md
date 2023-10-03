@@ -27,7 +27,8 @@ https://music-verse2-57f59708a605.herokuapp.com/
 
 ## Screenshots
 
-![ezgif com-gif-maker](https://github.com/pzhong1/Music-Verse/assets/123424361/b82a0d42-7be7-4aba-8592-059a9d0f21b4)
+<img width="1440" alt="Screenshot 2023-10-03 at 6 54 08 PM" src="https://github.com/pzhong1/Music-Verse/assets/123424361/8b7eb214-9f9c-43e8-9b2e-450de62e11ed">
+
 
 
 ## Features
