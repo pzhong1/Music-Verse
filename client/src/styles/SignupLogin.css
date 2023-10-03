@@ -1,6 +1,71 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
+/* Dark mode background and text color */
+body.dark-mode {
+	background: #333;
+	color: #ffffff; /* Set text color to white */
+  }
+  
+  .dark-mode .signin-login-wrapper {
+	background-color: #444;
+  }
+  
+  .dark-mode .signin-login-wrapper .container {
+	background-color: #555;
+  }
+  
+  .dark-mode .signin-login-wrapper input {
+	background-color: #666;
+	color: #fff;
+	border: 1px solid #777;
+  }
+  
+  .dark-mode .signin-login-wrapper button.ghost {
+	color: #fff;
+	border-color: #888;
+  }
+  
+  .dark-mode .signin-login-wrapper .overlay {
+	background: linear-gradient(to right, #333, rgb(138, 138, 138));
+  }
+  
+  .dark-mode .signin-login-wrapper footer {
+	background-color: #222;
+	color: #fff;
+  }
+  .dark-mode .signin-login-wrapper form {
+    background: linear-gradient(to bottom, #232323, #4e4e4e);
+    color: #c7c7c7;
+}
+
+
+.dark-mode .signin-login-wrapper form input {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border: 1px solid #4a4a4a;
+}
+
+.dark-mode .signin-login-wrapper form input::placeholder {
+    color: #7a7a7a;
+}
+
+.dark-mode .signin-login-wrapper form button {
+    background-color: #FF4B2B;
+    color: #fff;
+}
+
+.dark-mode .signin-login-wrapper form button:hover {
+    background-color: #ff6c4c;
+}
+
+.dark-mode .signin-login-wrapper form button:active {
+    background-color: #ff2a0a;
+}
+
+  .dark-mode .signin-login-wrapper a {
+	color: #ffffff;
+  }
 
 .signin-login-wrapper * {
 	box-sizing: border-box;

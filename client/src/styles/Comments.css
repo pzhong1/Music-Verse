@@ -1,5 +1,13 @@
 /* client/src/styles/Comments.css */
 
+.dark-mode .comments-section {
+  background: linear-gradient(135deg, #363636, #2d2d2d, #313131, #363636);
+}
+
+.dark-mode .comment{
+  color: white;
+}
+
 .comments-section {
   margin-top: 20px;
   padding: 10px;

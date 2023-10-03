@@ -95,11 +95,6 @@ const Comments = ({ musicId }) => {
             <p style={{ color: "orange" }}>
               Date: {comment.date ? comment.date : "No Date"}
             </p>
-            {isLoggedIn && (
-              <button onClick={() => handleDeleteComment(comment._id)}>
-                Delete
-              </button>
-            )}
           </div>
         ))}
       </div>
