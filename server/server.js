@@ -153,7 +153,7 @@ app.delete("/api/comments/:id", async (req, res) => {
   try {
     const commentId = req.params.id;
 
-    // check if id exsits
+    // check if id exists
     if (!mongoose.Types.ObjectId.isValid(commentId)) {
       return res.status(400).send("Invalid commentId");
     }

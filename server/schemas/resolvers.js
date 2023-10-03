@@ -55,7 +55,7 @@ const resolvers = {
     },
 
     addFriend: async (parent, { userId, friendId }, context) => {
-      // if check passses USER is authenticated
+      // if check passes USER is authenticated
       if (context.user) {
         // this means we HAVE a user to query for --> ADD a NEW FRIEND to the current user
 
@@ -64,12 +64,18 @@ const resolvers = {
     },
 
     //User can add a post once logged in
-    addPost: async (parent, { userId, post }, context) => {
+    addPost: async (parent, { userId, postText }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          { _id: userId },
+        // First Create the New Post --> { id: "", userId: userId, content: post}
+        const newPost = await Post.create({ postText, userId});
+        console.log("Newly created Post Obj: ", newPost)
+        // Then we can Add the Association
+
+      await User.findByIdAndUpdate(
+        //  { _id: userId },
+          { _id: userId},
           {
-            $addToSet: { posts: post },
+            $addToSet: { posts: newPost },
           },
           {
             new: true,
@@ -77,26 +83,60 @@ const resolvers = {
           }
         );
       }
-      throw new AuthenticationError("Must be logged in!");
+      throw AuthenticationError;
       // throw new GraphQLError("Must be logged in!")
     },
 
-    removeUser: async (parent, { userId }, context) => {
+    /*removeUser: async (parent, { userId }, context) => {
       if (context.user) {
         return User.findOneAndDelete({ _id: context.user._id });
       }
-      throw new AuthenticationError("You need to login");
-    },
+      throw AuthenticationError;
+    },*/
 
-    removePost: async (parent, { post }, context) => {
+    removeUser: async (parent, { username, email, password }) => {
+      try{
+        const deleteUser = await User.findOneAndDelete({username, email, password});
+        console.log("Delete User Instance: ", deleteUser);
+        // If additional Authentication Needed
+          // create a new token
+          const token = signToken(deleteUser);
+          // we want to return an AUTH datatype
+          return { token, deleteUser };
+        } catch (err) {
+          console.log(err);
+          throw err;
+        }
+       
+    },
+    removePost: async (parent, { postId }, context) => {
       if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { posts: post } },
-          { new: true }
-        );
+        try {
+          // Find the post by its ID and store it before removing
+          const removedPost = await Post.findByIdAndRemove(postId);
+          
+          if (!removedPost) {
+            throw new Error("Post not found");
+          }
+          
+          // Remove the association from the user's posts array
+          await User.findByIdAndUpdate(
+            context.user._id,
+            {
+              $pull: { posts: postId },
+            },
+            {
+              new: true,
+            }
+          );
+    
+          return removedPost;
+        } catch (error) {
+          throw new Error("Unable to remove the post");
+        }
+      } else {
+        throw new AuthenticationError("You must be logged in to remove a post");
       }
-      throw new AuthenticationError("Need to be login");
     },
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -119,7 +159,7 @@ const resolvers = {
           throw new Error("Error adding comment: ", error);
         }
       }
-      throw new AuthenticationError("Must be logged in to add a comment!");
+      throw  AuthenticationError;
     },   
   },
 };

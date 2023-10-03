@@ -5,24 +5,26 @@ type User {
   id: ID!
   username: String!
   email: String
-  posts: [String]!
+  posts: [Post]!
 }
 
   type Friend {
-    id: ID
-    userId: ID
+    id: ID!
+    username: String!
+    userId: ID!
+
   }
 
   type Post {
     id: ID!
-    userId: ID!
-    content: String!
+    userId: String
+    postText: String!
   }
 
   type Comment {
     id: ID!
     userId: ID!
-    commentId: ID!
+    musicId: ID!
     comment: String! 
   }
 
@@ -42,7 +44,7 @@ type User {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
 
-    addPost(userId: ID!, post: String!): User
+    addPost(userId: ID!, postText: String!):Post
     removeUser(userId: ID!): User
     removePost(post: String!): User
     addComment(postId: ID!, userId: ID!, comment: String!): Comment

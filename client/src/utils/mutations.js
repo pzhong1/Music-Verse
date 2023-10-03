@@ -42,7 +42,7 @@ export  const REMOVE_POST = gql`
         removePost(post: $post) {
             id
             username
-            post
+            postText
         }
     }
 `;
