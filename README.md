@@ -26,7 +26,8 @@ Music Verse is a cutting-edge music-centric platform designed for enthusiasts to
 
 ## Screenshots
 
-![Home Page](./Assets/Home-page.png)
+![ezgif com-gif-maker](https://github.com/pzhong1/Music-Verse/assets/123424361/b82a0d42-7be7-4aba-8592-059a9d0f21b4)
+
 
 ## Features
 
