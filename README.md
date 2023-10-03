@@ -12,8 +12,7 @@ The URL of the GitHub repository:
 https://music-verse2-57f59708a605.herokuapp.com/
 
 ## Description
-
-    Music Verse is a cutting-edge music-centric platform designed for enthusiasts to explore, critique, and share their passion for melodies and harmonies. Within Music       Verse, users can delve into new tracks, offer comprehensive reviews, evaluate compositions, and craft posts that foster dynamic interactions within the community.
+Music Verse is a cutting-edge music-centric platform designed for enthusiasts to explore, critique, and share their passion for melodies and harmonies. Within Music       Verse, users can delve into new tracks, offer comprehensive reviews, evaluate compositions, and craft posts that foster dynamic interactions within the community.
 
 ## Table of Contents
 
