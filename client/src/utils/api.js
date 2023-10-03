@@ -3,11 +3,10 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { ADD_USER } from "./mutations";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql",
+  uri: "/graphql",
   cache: new InMemoryCache(),
 });
 
-//get http request for 3001
 const searchMusic = (query) => {
   return axios.get(`/search?q=${query}`);
 };
@@ -18,7 +17,7 @@ const getMusicById = (id) => {
 
 ////////////ADD comments////////////
 const addComment = (musicId, comment, rating, date) => {
-  return axios.post(`http://localhost:3001/api/comments`, {
+  return axios.post(`/api/comments`, {
     musicId,
     comment,
     rating,
@@ -27,12 +26,12 @@ const addComment = (musicId, comment, rating, date) => {
 };
 ///////GET comments ///////////
 const getCommentsByMusicId = (musicId) => {
-  return axios.get(`http://localhost:3001/api/comments/${musicId}`);
+  return axios.get(`/api/comments/${musicId}`);
 };
 
 ////////////DELETE comments/////////////
 const deleteComment = (commentId) => {
-  return axios.delete(`http://localhost:3001/api/comments/${commentId}`);
+  return axios.delete(`/api/comments/${commentId}`);
 };
 
 const LOGIN_USER = gql`
